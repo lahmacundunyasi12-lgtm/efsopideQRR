@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="tr" class="h-full">
+<html lang="tr" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>EFSO Lahmacun & Pide - Premium Menü</title>
+    <title>EFSO Lahmacun & Pide Dünyası</title>
     
     <!-- Tailwind CDN Uyarısını Gizleyen Script -->
     <script>
@@ -13,505 +13,394 @@
             originalWarn.apply(console, arguments);
         };
     </script>
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
-
+    
+    <!-- Tailwind Yapılandırması -->
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        gold: {
-                            100: '#FDF7E7',
-                            300: '#E6C981',
-                            500: '#C5A059',
-                            700: '#8C6D31',
-                            900: '#4A3B18'
-                        },
-                        obsidian: '#0B0C10',
-                        charcoal: '#15161A',
-                        paper: '#1A1C23'
+                        brand: {
+                            main: '#991B1B', // Ateş ve fırın hissiyatı için derin kırmızı
+                            gold: '#F59E0B', // EFSO altın sarısı logosu
+                            dark: '#050505', // Arka plan siyahı
+                            card: '#121212', // Kart siyahı
+                            input: '#1C1C1E', // Arama kutusu
+                        }
                     },
                     fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
                         cinzel: ['Cinzel', 'serif']
-                    },
-                    boxShadow: {
-                        'premium': '0 10px 40px -10px rgba(0,0,0,0.8), 0 0 20px rgba(197, 160, 89, 0.05)',
                     }
                 }
             }
         }
     </script>
+    
+    <!-- Google Fonts: Inter & Cinzel -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cinzel:wght@700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         body {
-            background-color: #050505;
-            background-image: radial-gradient(circle at 50% 0%, #15161A 0%, #050505 80%);
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .font-cinzel {
+            font-family: 'Cinzel', serif;
         }
 
-        /* Altın rengi metin degrade efekti */
-        .gold-text {
-            background: linear-gradient(135deg, #FDF7E7 0%, #C5A059 50%, #8C6D31 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        /* Özel Kaydırma Çubuğu Gizleme */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
-        /* İnce, şık kaydırma çubuğu */
-        ::-webkit-scrollbar { width: 3px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #4A3B18; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #C5A059; }
+        /* Tıklama efekti */
+        .active-scale:active {
+            transform: scale(0.96);
+        }
 
-        /* Premium menü çizgileri */
-        .menu-leader {
-            flex-grow: 1;
-            border-bottom: 1px dotted rgba(197, 160, 89, 0.3);
-            margin: 0 12px;
+        /* Yumuşak geçişler */
+        .view-transition {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .hide-view {
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+            width: 100%;
+            transform: translateX(20px);
+        }
+        .show-view {
+            opacity: 1;
+            pointer-events: auto;
             position: relative;
-            top: -6px;
-        }
-
-        .nav-tab.active-tab {
-            border-bottom-color: #C5A059;
-            color: #C5A059;
-        }
-
-        /* Pürüzsüz Sayfa Geçişleri (Fade & Scale) */
-        .page-sheet {
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            transform: translateX(0);
         }
     </style>
 </head>
-<body class="text-gray-300 font-sans h-full flex flex-col justify-between overflow-x-hidden select-none">
+<body class="bg-brand-dark text-white h-screen flex flex-col overflow-hidden select-none">
 
-    <!-- ÜST MARKA HEADER -->
-    <header class="bg-black/60 border-b border-gold-900/40 px-5 py-4 sticky top-0 z-40 backdrop-blur-xl flex items-center justify-between">
-        <div class="flex items-center gap-4 mx-auto sm:mx-0">
-            <!-- Minimal Logo -->
-            <div class="w-11 h-11 rounded-full border border-gold-500/30 flex items-center justify-center relative">
-                <div class="absolute inset-1 border border-gold-500/10 rounded-full"></div>
-                <span class="font-cinzel text-xl text-gold-500 font-bold">E</span>
+    <!-- ÜST BİLGİ VE ARAMA ALANI -->
+    <div class="bg-brand-main rounded-b-3xl z-40 relative shadow-[0_10px_20px_rgba(153,27,27,0.2)] shrink-0">
+        <!-- Header -->
+        <header class="px-4 pt-4 pb-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <!-- Logo Çerçevesi -->
+                <div class="w-12 h-12 bg-black rounded-xl border border-brand-gold/40 flex flex-col items-center justify-center relative overflow-hidden shadow-inner">
+                    <i class="fa-solid fa-fire text-brand-gold text-lg mb-0.5"></i>
+                    <span class="font-cinzel text-[10px] font-bold text-brand-gold leading-none tracking-wider">EFSO</span>
+                </div>
+                <div>
+                    <h1 class="font-cinzel font-bold text-[20px] leading-tight text-white tracking-wide">EFSO</h1>
+                    <span class="text-[9px] text-brand-gold uppercase tracking-widest font-semibold block">Lahmacun & Pide Dünyası</span>
+                </div>
             </div>
-            <div class="text-center sm:text-left flex flex-col justify-center">
-                <h1 class="font-cinzel text-xl font-bold tracking-[0.2em] text-white leading-tight">EFSO</h1>
-                <span class="text-[9px] text-gold-500/80 tracking-[0.3em] font-medium uppercase block"> Lezzetler</span>
-            </div>
-        </div>
-        <div class="hidden sm:flex items-center gap-2 text-[10px] text-gold-300/70 uppercase tracking-widest border border-gold-900/50 px-4 py-1.5 rounded-sm">
-            <i class="fa-solid fa-qrcode text-gold-500"></i>
-            Dijital Menü
-        </div>
-    </header>
-
-    <!-- KATEGORİ HIZLI GEÇİŞ ÇUBUĞU -->
-    <nav class="bg-obsidian/90 backdrop-blur-md border-b border-white/5 sticky top-[73px] z-30">
-        <div class="flex items-center gap-6 overflow-x-auto no-scrollbar max-w-2xl mx-auto px-5 py-0">
-            <button onclick="goToPage(1)" class="nav-tab active-tab text-gold-500 border-b-2 border-transparent py-4 text-xs font-medium tracking-wider uppercase whitespace-nowrap transition-colors duration-300 flex items-center gap-2">
-                <i class="fa-solid fa-book-open-reader text-[10px]"></i> Kapak
-            </button>
-            <button onclick="goToPage(2)" class="nav-tab text-gray-400 border-b-2 border-transparent py-4 text-xs font-medium tracking-wider uppercase whitespace-nowrap hover:text-gray-200 transition-colors duration-300 flex items-center gap-2">
-                <i class="fa-solid fa-circle-notch text-[10px]"></i> Lahmacun
-            </button>
-            <button onclick="goToPage(3)" class="nav-tab text-gray-400 border-b-2 border-transparent py-4 text-xs font-medium tracking-wider uppercase whitespace-nowrap hover:text-gray-200 transition-colors duration-300 flex items-center gap-2">
-                <i class="fa-solid fa-diamond text-[10px]"></i> Klasik Pide
-            </button>
-            <button onclick="goToPage(4)" class="nav-tab text-gray-400 border-b-2 border-transparent py-4 text-xs font-medium tracking-wider uppercase whitespace-nowrap hover:text-gray-200 transition-colors duration-300 flex items-center gap-2">
-                <i class="fa-solid fa-star text-[10px]"></i> Özel Pide
-            </button>
-            <button onclick="goToPage(5)" class="nav-tab text-gray-400 border-b-2 border-transparent py-4 text-xs font-medium tracking-wider uppercase whitespace-nowrap hover:text-gray-200 transition-colors duration-300 flex items-center gap-2">
-                <i class="fa-solid fa-wine-glass text-[10px]"></i> İçecek
-            </button>
-        </div>
-    </nav>
-
-    <!-- MENÜ KARTI GÖRÜNÜMÜ -->
-    <main class="flex-1 max-w-xl mx-auto w-full p-4 sm:p-6 flex flex-col justify-center items-center my-auto">
-        <div class="w-full aspect-[1/1.4] max-h-[700px] relative rounded-xl shadow-premium border border-gold-900/40 bg-gradient-to-b from-[#1A1C23] to-[#111216] overflow-hidden">
             
-            <!-- İç Çerçeve Süslemesi -->
-            <div class="absolute inset-2 border border-gold-900/20 rounded-lg pointer-events-none"></div>
-
-            <!-- SAYFA 1: MENÜ KAPAK -->
-            <div id="page-1" class="page-sheet absolute inset-0 p-8 sm:p-10 flex flex-col justify-between items-center text-center opacity-100 scale-100 z-20 pointer-events-auto">
-                <div class="w-full flex items-center justify-center gap-3 mt-4">
-                    <div class="h-px w-12 bg-gradient-to-r from-transparent to-gold-500/50"></div>
-                    <i class="fa-solid fa-wheat-awn text-gold-500/60 text-sm"></i>
-                    <div class="h-px w-12 bg-gradient-to-l from-transparent to-gold-500/50"></div>
-                </div>
-
-                <div class="my-auto space-y-6 w-full relative z-10">
-                    <div>
-                        <span class="text-[10px] uppercase tracking-[0.4em] text-gold-300/80 font-light block mb-4">Modern Taş Fırın</span>
-                        <h2 class="font-cinzel text-5xl sm:text-6xl font-bold gold-text tracking-widest drop-shadow-lg">EFSO</h2>
-                        <div class="flex items-center justify-center gap-2 mt-4">
-                            <span class="w-1 h-1 rounded-full bg-gold-500/50"></span>
-                            <p class="text-xs font-serif italic text-gray-300 tracking-[0.2em] uppercase"> Pide & Lahmacun</p>
-                            <span class="w-1 h-1 rounded-full bg-gold-500/50"></span>
-                        </div>
-                    </div>
-                    
-                    <div class="max-w-[260px] mx-auto pt-6 border-t border-gold-900/30">
-                        <p class="text-[11px] text-gray-400 font-light leading-loose">
-                            Kusursuz ısı dağılımıyla mükemmel çıtırlığa ulaşan hamur ve özenle seçilmiş birinci sınıf malzemeler...
-                        </p>
-                    </div>
-                </div>
-
-                <button onclick="nextPage()" class="group relative px-8 py-3.5 bg-transparent border border-gold-500/40 text-gold-300 hover:text-white hover:bg-gold-900/20 uppercase tracking-widest text-[11px] font-semibold transition-all duration-500 overflow-hidden z-10 rounded-sm">
-                    <span class="relative z-10 flex items-center gap-3">
-                        Menüyü İncele
-                        <i class="fa-solid fa-arrow-right-long opacity-70 group-hover:translate-x-1 transition-transform"></i>
-                    </span>
+            <div class="flex items-center gap-2">
+                <button class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center active:bg-white/10 transition-colors">
+                    <i class="fa-regular fa-moon text-lg"></i>
+                </button>
+                <button class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center active:bg-white/10 transition-colors">
+                    <i class="fa-solid fa-globe text-lg"></i>
                 </button>
             </div>
+        </header>
 
-            <!-- SAYFA 2: LAHMACUN ÇEŞİTLERİ -->
-            <div id="page-2" class="page-sheet absolute inset-0 p-6 sm:p-8 flex flex-col justify-between opacity-0 scale-[0.98] z-10 pointer-events-none">
-                <div class="text-center pb-6 mb-4 relative">
-                    <span class="text-[9px] uppercase tracking-[0.3em] text-gold-500/60 font-sans block mb-1">Geleneksel Lezzet</span>
-                    <h3 class="font-serif text-2xl text-white tracking-wide">Lahmacun Çeşitleri</h3>
-                    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[1px] bg-gold-500/40"></div>
-                </div>
+        <!-- Arama -->
+        <div class="px-4 pb-5 pt-1">
+            <div class="bg-brand-input rounded-2xl flex items-center px-4 py-3 border border-white/5 shadow-inner">
+                <i class="fa-solid fa-magnifying-glass text-gray-400 mr-3 text-lg"></i>
+                <input type="text" placeholder="Menüde lezzet arayın..." class="bg-transparent border-none outline-none text-sm w-full text-white placeholder-gray-400 font-medium">
+            </div>
+        </div>
+    </div>
 
-                <div class="flex-1 overflow-y-auto pr-2">
-                    <div class="space-y-6">
-                        <div>
-                            <div class="flex items-baseline justify-between mb-1">
-                                <h4 class="text-gold-100 font-serif text-[15px] tracking-wide">Klasik Lahmacun</h4>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-500 font-sans font-medium text-sm">130 ₺</span>
-                            </div>
-                            <p class="text-gray-400/80 text-[11px] font-light tracking-wide leading-relaxed pr-12">Çıtır ince hamur, özenle seçilmiş kıymalı özel baharatlı harç</p>
-                        </div>
-                        <div>
-                            <div class="flex items-baseline justify-between mb-1">
-                                <h4 class="text-gold-100 font-serif text-[15px] tracking-wide">Kaşarlı Lahmacun</h4>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-500 font-sans font-medium text-sm">160 ₺</span>
-                            </div>
-                            <p class="text-gray-400/80 text-[11px] font-light tracking-wide leading-relaxed pr-12">Geleneksel lezzet üzerinde eriyen birinci sınıf kaşar peyniri</p>
-                        </div>
-                        <div>
-                            <div class="flex items-baseline justify-between mb-1">
-                                <h4 class="text-gold-100 font-serif text-[15px] tracking-wide">Malatya Lahmacun</h4>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-500 font-sans font-medium text-sm">260 ₺</span>
-                            </div>
-                            <p class="text-gray-400/80 text-[11px] font-light tracking-wide leading-relaxed pr-12">Yöresel aromalarla zenginleştirilmiş, bol malzemeli spesiyal</p>
-                        </div>
-                        <div>
-                            <div class="flex items-baseline justify-between mb-1">
-                                <h4 class="text-gold-100 font-serif text-[15px] tracking-wide">Fındık Lahmacun</h4>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-500 font-sans font-medium text-sm">120 ₺</span>
-                            </div>
-                            <p class="text-gray-400/80 text-[11px] font-light tracking-wide leading-relaxed pr-12">Öğün öncesi ideal porsiyonluk zarif başlangıç</p>
-                        </div>
-                        <div class="pt-2">
-                            <div class="flex items-baseline justify-between mb-1">
-                                <h4 class="text-gold-100 font-serif text-[15px] tracking-wide">Günün Çorbası</h4>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-500 font-sans font-medium text-sm">100 ₺</span>
-                            </div>
-                            <p class="text-gray-400/80 text-[11px] font-light tracking-wide leading-relaxed pr-12">Taze malzemelerle hazırlanan sıcak başlangıç</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pt-5 flex justify-between items-center mt-2 border-t border-white/5">
-                    <button onclick="prevPage()" class="text-[10px] text-gray-500 hover:text-gold-500 uppercase tracking-widest transition-colors"><i class="fa-solid fa-chevron-left mr-1"></i> Geri</button>
-                    <span class="text-[9px] font-serif italic text-gold-500/40">Sayfa I</span>
-                    <button onclick="nextPage()" class="text-[10px] text-gold-300 hover:text-white uppercase tracking-widest transition-colors">İleri <i class="fa-solid fa-chevron-right ml-1"></i></button>
+    <!-- ANA İÇERİK ALANI -->
+    <main class="flex-1 overflow-y-auto no-scrollbar relative z-10 pb-20 pt-4" id="main-scroll-area">
+        
+        <!-- 1. GÖRÜNÜM: ANASAYFA (Kategoriler) -->
+        <div id="home-view" class="view-transition show-view px-4 space-y-6">
+            
+            <!-- Kampanya Banner (Fotoğrafsız Tasarım) -->
+            <div class="w-full h-40 rounded-2xl relative active-scale transition-transform border border-brand-gold/30 shadow-lg bg-gradient-to-br from-brand-main to-[#4a0909] overflow-hidden flex items-center p-5">
+                <!-- Arka Plan İkonu (Dekoratif) -->
+                <i class="fa-solid fa-fire-flame-curved absolute -right-6 -bottom-6 text-[140px] text-brand-gold/10 -rotate-12"></i>
+                
+                <div class="relative z-10 flex flex-col justify-center">
+                    <span class="bg-black/40 border border-brand-gold/30 text-brand-gold text-[10px] font-bold px-2 py-1 rounded-sm w-max mb-2 uppercase tracking-wider flex items-center gap-1">
+                        <i class="fa-solid fa-star"></i> Özel Fırsat
+                    </span>
+                    <h2 class="text-[26px] font-extrabold text-white leading-tight drop-shadow-md">TOPLU SİPARİŞ<br><span class="text-brand-gold">ALINIR</span></h2>
+                    <p class="text-gray-200 text-xs mt-2 font-medium italic">Özel günleriniz için Evcil Pide & Lahmacun yapılır.</p>
                 </div>
             </div>
 
-            <!-- SAYFA 3: PİDE ÇEŞİTLERİ (1) -->
-            <div id="page-3" class="page-sheet absolute inset-0 p-6 sm:p-8 flex flex-col justify-between opacity-0 scale-[0.98] z-10 pointer-events-none">
-                <div class="text-center pb-6 mb-2 relative">
-                    <span class="text-[9px] uppercase tracking-[0.3em] text-gold-500/60 font-sans block mb-1">Usta Ellerin Dokunuşu</span>
-                    <h3 class="font-serif text-2xl text-white tracking-wide">Klasik Pideler</h3>
-                    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[1px] bg-gold-500/40"></div>
-                </div>
+            <!-- Kategoriler Başlığı -->
+            <div class="flex items-end justify-between">
+                <h3 class="text-2xl font-bold flex items-center gap-2">Kategoriler</h3>
+                <span class="text-sm text-gray-400">Tüm Menü</span>
+            </div>
 
-                <div class="flex-1 overflow-y-auto pr-2">
-                    <div class="space-y-5">
-                        <div>
-                            <div class="flex items-baseline justify-between mb-1">
-                                <h4 class="text-gold-100 font-serif text-[15px] tracking-wide">Kaşarlı Pide</h4>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-500 font-sans font-medium text-sm">270 ₺</span>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex items-baseline justify-between mb-1">
-                                <h4 class="text-gold-100 font-serif text-[15px] tracking-wide">Kıymalı Pide</h4>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-500 font-sans font-medium text-sm">290 ₺</span>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex items-baseline justify-between mb-1">
-                                <h4 class="text-gold-100 font-serif text-[15px] tracking-wide">Kıymalı Kaşarlı Pide</h4>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-500 font-sans font-medium text-sm">300 ₺</span>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex items-baseline justify-between mb-1">
-                                <h4 class="text-gold-100 font-serif text-[15px] tracking-wide">Sebzeli Kaşarlı Pide</h4>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-500 font-sans font-medium text-sm">290 ₺</span>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex items-baseline justify-between mb-1">
-                                <h4 class="text-gold-100 font-serif text-[15px] tracking-wide">Sucuklu Kaşarlı Pide</h4>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-500 font-sans font-medium text-sm">290 ₺</span>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex items-baseline justify-between mb-1">
-                                <h4 class="text-gold-100 font-serif text-[15px] tracking-wide">Kuşbaşılı Pide</h4>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-500 font-sans font-medium text-sm">340 ₺</span>
-                            </div>
-                        </div>
+            <!-- Kategori Grid (İkonlu Kutu Tasarımı) -->
+            <div class="grid grid-cols-2 gap-3 pb-2">
+                
+                <div onclick="openCategory('Lahmacun Çeşitleri')" class="h-28 rounded-2xl active-scale transition-transform border border-white/5 bg-brand-card flex flex-col items-center justify-center gap-3 shadow-md hover:border-brand-gold/30">
+                    <div class="w-12 h-12 rounded-full bg-[#1A1A1A] border border-white/5 flex items-center justify-center">
+                        <i class="fa-solid fa-fire text-2xl text-brand-gold"></i>
                     </div>
+                    <span class="font-bold text-[14px] tracking-wide text-white">Lahmacunlar</span>
                 </div>
 
-                <div class="pt-5 flex justify-between items-center mt-2 border-t border-white/5">
-                    <button onclick="prevPage()" class="text-[10px] text-gray-500 hover:text-gold-500 uppercase tracking-widest transition-colors"><i class="fa-solid fa-chevron-left mr-1"></i> Geri</button>
-                    <span class="text-[9px] font-serif italic text-gold-500/40">Sayfa II</span>
-                    <button onclick="nextPage()" class="text-[10px] text-gold-300 hover:text-white uppercase tracking-widest transition-colors">İleri <i class="fa-solid fa-chevron-right ml-1"></i></button>
+                <div onclick="openCategory('Pide Çeşitleri')" class="h-28 rounded-2xl active-scale transition-transform border border-white/5 bg-brand-card flex flex-col items-center justify-center gap-3 shadow-md hover:border-brand-gold/30">
+                    <div class="w-12 h-12 rounded-full bg-[#1A1A1A] border border-white/5 flex items-center justify-center">
+                        <i class="fa-solid fa-utensils text-2xl text-brand-gold"></i>
+                    </div>
+                    <span class="font-bold text-[14px] tracking-wide text-white">Pideler</span>
+                </div>
+
+                <div onclick="openCategory('İçecekler')" class="h-28 rounded-2xl active-scale transition-transform border border-white/5 bg-brand-card flex flex-col items-center justify-center gap-3 shadow-md hover:border-brand-gold/30">
+                    <div class="w-12 h-12 rounded-full bg-[#1A1A1A] border border-white/5 flex items-center justify-center">
+                        <i class="fa-solid fa-glass-water text-2xl text-brand-gold"></i>
+                    </div>
+                    <span class="font-bold text-[14px] tracking-wide text-white">İçecekler</span>
+                </div>
+
+                <div onclick="openCategory('Ayran & Süt Ürünleri')" class="h-28 rounded-2xl active-scale transition-transform border border-white/5 bg-brand-card flex flex-col items-center justify-center gap-3 shadow-md hover:border-brand-gold/30">
+                    <div class="w-12 h-12 rounded-full bg-[#1A1A1A] border border-white/5 flex items-center justify-center">
+                        <i class="fa-solid fa-bottle-droplet text-2xl text-brand-gold"></i>
+                    </div>
+                    <span class="font-bold text-[14px] tracking-wide text-white text-center leading-tight">Ayran & Süt<br><span class="text-xs text-gray-400">Ürünleri</span></span>
+                </div>
+
+                <!-- Son kategori tam genişlik -->
+                <div onclick="openCategory('Diğer Ürünler')" class="col-span-2 h-20 rounded-2xl active-scale transition-transform border border-white/5 bg-brand-card flex items-center justify-center gap-4 shadow-md hover:border-brand-gold/30">
+                    <div class="w-10 h-10 rounded-full bg-[#1A1A1A] border border-white/5 flex items-center justify-center">
+                        <i class="fa-solid fa-snowflake text-xl text-brand-gold"></i>
+                    </div>
+                    <span class="font-bold text-[15px] tracking-wide text-white">Diğer Soğuk Ürünler</span>
+                    <i class="fa-solid fa-chevron-right text-gray-600 absolute right-6"></i>
                 </div>
             </div>
 
-            <!-- SAYFA 4: ÖZEL PİDELER (2) -->
-            <div id="page-4" class="page-sheet absolute inset-0 p-6 sm:p-8 flex flex-col justify-between opacity-0 scale-[0.98] z-10 pointer-events-none">
-                <div class="text-center pb-5 mb-2 relative">
-                    <span class="text-[9px] uppercase tracking-[0.3em] text-gold-500/60 font-sans block mb-1">Şefin Seçimleri</span>
-                    <h3 class="font-serif text-2xl text-white tracking-wide">Özel Pideler</h3>
-                    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[1px] bg-gold-500/40"></div>
-                </div>
-
-                <div class="flex-1 overflow-y-auto pr-2">
-                    <div class="space-y-4">
-                        <div>
-                            <div class="flex items-baseline justify-between mb-1">
-                                <h4 class="text-gold-100 font-serif text-[14px] tracking-wide">Kuşbaşılı Kaşarlı Pide</h4>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-500 font-sans font-medium text-sm">350 ₺</span>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex items-baseline justify-between mb-1">
-                                <h4 class="text-gold-100 font-serif text-[14px] tracking-wide">Kavurmalı Pide</h4>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-500 font-sans font-medium text-sm">360 ₺</span>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex items-baseline justify-between mb-1">
-                                <h4 class="text-gold-100 font-serif text-[14px] tracking-wide">Kavurmalı Kaşarlı Pide</h4>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-500 font-sans font-medium text-sm">350 ₺</span>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex items-baseline justify-between mb-1">
-                                <h4 class="text-gold-100 font-serif text-[14px] tracking-wide">Karışık Pide</h4>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-500 font-sans font-medium text-sm">320 ₺</span>
-                            </div>
-                        </div>
-                        
-                        <!-- İmza Ürün -->
-                        <div class="relative py-2 px-3 bg-gradient-to-r from-gold-900/10 to-transparent border-l-2 border-gold-500/50 rounded-sm">
-                            <div class="flex items-baseline justify-between mb-0.5">
-                                <h4 class="text-gold-300 font-serif text-[15px] font-medium tracking-wide">Efso Signature Pide</h4>
-                                <div class="menu-leader border-gold-500/50"></div>
-                                <span class="text-gold-300 font-sans font-bold text-sm">370 ₺</span>
-                            </div>
-                            <p class="text-gray-400/80 text-[10px] font-light italic">Şefimizin özel reçetesiyle hazırlanan imza lezzet</p>
-                        </div>
-
-                        <div>
-                            <div class="flex items-baseline justify-between mb-1">
-                                <h4 class="text-gold-100 font-serif text-[14px] tracking-wide">Pastırmalı Kaşarlı Pide</h4>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-500 font-sans font-medium text-sm">390 ₺</span>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex items-baseline justify-between mb-1">
-                                <h4 class="text-gold-100 font-serif text-[14px] tracking-wide">Etli Ekmek</h4>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-500 font-sans font-medium text-sm">290 ₺</span>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex items-baseline justify-between mb-1">
-                                <h4 class="text-gold-100 font-serif text-[14px] tracking-wide">Bafra Pide (Kapalı)</h4>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-500 font-sans font-medium text-sm">300 ₺</span>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex items-baseline justify-between mb-1">
-                                <h4 class="text-gold-100 font-serif text-[14px] tracking-wide">Mantarlı Kaşarlı Pide</h4>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-500 font-sans font-medium text-sm">300 ₺</span>
-                            </div>
-                        </div>
+            <!-- Alt Bilgi Metni -->
+            <div class="bg-gradient-to-br from-brand-card to-black p-5 rounded-2xl border border-white/5 mb-10 shadow-lg">
+                <div class="text-center space-y-4">
+                    <h4 class="font-bold text-brand-gold text-sm tracking-widest uppercase"><i class="fa-solid fa-map-location-dot mr-1"></i> İletişim & Adres</h4>
+                    <div class="flex flex-col sm:flex-row justify-center gap-3 text-xs font-semibold">
+                        <a href="tel:05319207402" class="flex items-center justify-center gap-2 text-white bg-white/5 px-4 py-2.5 rounded-xl border border-white/5 active-scale">
+                            <i class="fa-solid fa-phone text-brand-gold"></i> 0531 920 74 02
+                        </a>
+                        <a href="tel:02129095424" class="flex items-center justify-center gap-2 text-white bg-white/5 px-4 py-2.5 rounded-xl border border-white/5 active-scale">
+                            <i class="fa-solid fa-phone text-brand-gold"></i> 0212 909 54 24
+                        </a>
                     </div>
+                    <p class="text-[11px] text-gray-400 leading-relaxed px-2 border-t border-white/5 pt-3">
+                        Fatih mah Prof Aziz Sancar Cad. No:62/F Kırımlı Cadde Sitesi Küçükçekmece
+                    </p>
                 </div>
+            </div>
+            
+            <div class="text-center text-[10px] text-gray-500 pb-10 space-y-1 mt-[-10px]">
+                <p>Fiyatlarımıza KDV dahildir.</p>
+                <p>Son fiyat güncellemesi: 18.08.2026</p>
+            </div>
+        </div>
 
-                <div class="pt-5 flex justify-between items-center mt-2 border-t border-white/5">
-                    <button onclick="prevPage()" class="text-[10px] text-gray-500 hover:text-gold-500 uppercase tracking-widest transition-colors"><i class="fa-solid fa-chevron-left mr-1"></i> Geri</button>
-                    <span class="text-[9px] font-serif italic text-gold-500/40">Sayfa III</span>
-                    <button onclick="nextPage()" class="text-[10px] text-gold-300 hover:text-white uppercase tracking-widest transition-colors">İleri <i class="fa-solid fa-chevron-right ml-1"></i></button>
+        <!-- 2. GÖRÜNÜM: KATEGORİ DETAYLARI (Ürün Listesi - Fotoğrafsız) -->
+        <div id="category-view" class="view-transition hide-view px-4">
+            
+            <!-- Kategori Geri Tuşu & Başlık -->
+            <div class="flex items-center justify-between mb-4 mt-2 sticky top-0 bg-brand-dark/95 backdrop-blur-md py-3 z-20 border-b border-brand-gold/10">
+                <div class="flex items-center gap-3">
+                    <button onclick="goHome()" class="w-9 h-9 rounded-full bg-brand-card border border-white/10 flex items-center justify-center active-scale text-brand-gold hover:bg-white/5 transition-colors">
+                        <i class="fa-solid fa-arrow-left text-lg"></i>
+                    </button>
+                    <h3 id="category-title" class="text-xl font-bold text-white tracking-wide">Kategori</h3>
                 </div>
             </div>
 
-            <!-- SAYFA 5: İÇECEKLER VE DİĞER -->
-            <div id="page-5" class="page-sheet absolute inset-0 p-6 sm:p-8 flex flex-col justify-between opacity-0 scale-[0.98] z-10 pointer-events-none">
-                <div class="text-center pb-6 mb-2 relative">
-                    <span class="text-[9px] uppercase tracking-[0.3em] text-gold-500/60 font-sans block mb-1">Ferahlatıcı</span>
-                    <h3 class="font-serif text-2xl text-white tracking-wide">İçecekler</h3>
-                    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[1px] bg-gold-500/40"></div>
-                </div>
-
-                <div class="flex-1 overflow-y-auto pr-2">
-                    
-                    <div class="mb-5">
-                        <h5 class="text-[10px] font-sans font-bold uppercase tracking-[0.2em] text-gold-700 mb-3 border-b border-gold-900/30 pb-1 inline-block">Soğuk İçecekler</h5>
-                        <div class="space-y-3.5">
-                            <div class="flex items-baseline justify-between">
-                                <span class="text-gray-300 font-sans text-xs tracking-wide">Kutu Coca Cola / Fanta</span>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-300 font-sans text-xs font-medium">80 ₺</span>
-                            </div>
-                            <div class="flex items-baseline justify-between">
-                                <span class="text-gray-300 font-sans text-xs tracking-wide">Şişe Coca Cola</span>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-300 font-sans text-xs font-medium">70 ₺</span>
-                            </div>
-                            <div class="flex items-baseline justify-between">
-                                <span class="text-gray-300 font-sans text-xs tracking-wide">Pınar Kutu Meyve Suyu</span>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-300 font-sans text-xs font-medium">60 ₺</span>
-                            </div>
-                            <div class="flex items-baseline justify-between">
-                                <span class="text-gray-300 font-sans text-xs tracking-wide">Doğanay Şalgam (Acılı/Acısız)</span>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-300 font-sans text-xs font-medium">40 ₺</span>
-                            </div>
-                            <div class="flex items-baseline justify-between">
-                                <span class="text-gray-300 font-sans text-xs tracking-wide">Beypazarı Sade Soda</span>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-300 font-sans text-xs font-medium">30 ₺</span>
-                            </div>
-                            <div class="flex items-baseline justify-between">
-                                <span class="text-gray-300 font-sans text-xs tracking-wide">Su</span>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-300 font-sans text-xs font-medium">20 ₺</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h5 class="text-[10px] font-sans font-bold uppercase tracking-[0.2em] text-gold-700 mb-3 border-b border-gold-900/30 pb-1 inline-block">Ayran Çeşitleri</h5>
-                        <div class="space-y-3.5">
-                            <div class="flex items-baseline justify-between">
-                                <span class="text-gray-300 font-sans text-xs tracking-wide">Cam Şişe Silivri Ayran</span>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-300 font-sans text-xs font-medium">70 ₺</span>
-                            </div>
-                            <div class="flex items-baseline justify-between">
-                                <span class="text-gray-300 font-sans text-xs tracking-wide">Büyük Ayran (300 ml)</span>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-300 font-sans text-xs font-medium">40 ₺</span>
-                            </div>
-                            <div class="flex items-baseline justify-between">
-                                <span class="text-gray-300 font-sans text-xs tracking-wide">Küçük Ayran (200 ml)</span>
-                                <div class="menu-leader"></div>
-                                <span class="text-gold-300 font-sans text-xs font-medium">30 ₺</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="pt-5 flex justify-between items-center mt-2 border-t border-white/5">
-                    <button onclick="prevPage()" class="text-[10px] text-gray-500 hover:text-gold-500 uppercase tracking-widest transition-colors"><i class="fa-solid fa-chevron-left mr-1"></i> Geri</button>
-                    <span class="text-[9px] font-serif italic text-gold-500/40">Sayfa IV</span>
-                    <button onclick="goToPage(1)" class="text-[10px] text-gold-300 hover:text-white uppercase tracking-widest transition-colors">Başa Dön <i class="fa-solid fa-rotate-left ml-1"></i></button>
-                </div>
+            <!-- Ürün Listesi Konteyneri -->
+            <div class="space-y-4 pb-8 pt-2" id="product-list">
+                <!-- JS tarafından doldurulacak -->
             </div>
-
         </div>
     </main>
 
-    <!-- SABİT ALT BİLGİ DÜKKAN ADRESİ -->
-    <footer class="bg-black/80 border-t border-gold-900/30 py-4 px-4 text-center backdrop-blur-md">
-        <div class="max-w-md mx-auto space-y-1.5">
-            <p class="text-gold-500 text-[10px] uppercase tracking-[0.2em] font-medium">EFSO Lahmacun & Pide</p>
-            <p class="text-[10px] text-gray-500/80 font-light tracking-wide">Fatih Mah. Prof. Aziz Sancar Cad. No:62/F Küçükçekmece</p>
-        </div>
-    </footer>
+    <!-- SAĞ YAN YÜZEN BUTONLAR (FAB) -->
+    <div class="fixed right-4 bottom-20 flex flex-col gap-3 z-50">
+        <a href="https://maps.google.com/?q=Fatih+mah+Prof+Aziz+Sancar+Cad.+No:62/F+Küçükçekmece" target="_blank" class="w-12 h-12 bg-brand-main rounded-full shadow-lg flex items-center justify-center active-scale transition-transform border border-brand-gold/30 text-white">
+            <i class="fa-solid fa-location-dot text-xl"></i>
+        </a>
+        <a href="https://wa.me/905319207402" target="_blank" class="w-12 h-12 bg-green-600 rounded-full shadow-lg flex items-center justify-center active-scale transition-transform border border-green-400/30 text-white">
+            <i class="fa-brands fa-whatsapp text-2xl"></i>
+        </a>
+        <a href="tel:05319207402" class="w-12 h-12 bg-brand-main rounded-full shadow-lg flex items-center justify-center active-scale transition-transform border border-brand-gold/30 text-white">
+            <i class="fa-solid fa-phone text-xl"></i>
+        </a>
+    </div>
 
-    <!-- JAVASCRIPT SAYFA ÇEVİRME MANİPÜLASYONU -->
+    <!-- ALT NAVİGASYON BARI -->
+    <nav class="bg-brand-main h-16 w-full fixed bottom-0 z-50 flex justify-between px-2 pb-safe border-t border-brand-gold/20 shadow-[0_-5px_15px_rgba(0,0,0,0.5)]">
+        <button onclick="goHome()" class="flex-1 flex flex-col items-center justify-center gap-1 opacity-100 text-brand-gold transition-opacity active-scale">
+            <i class="fa-solid fa-house text-xl"></i>
+            <span class="text-[10px] font-semibold tracking-wide">Anasayfa</span>
+        </button>
+        <button onclick="goHome()" class="flex-1 flex flex-col items-center justify-center gap-1 opacity-70 hover:opacity-100 transition-opacity active-scale text-white">
+            <i class="fa-solid fa-circle-info text-xl"></i>
+            <span class="text-[10px] font-medium tracking-wide">Bilgi</span>
+        </button>
+        <button class="flex-1 flex flex-col items-center justify-center gap-1 opacity-70 hover:opacity-100 transition-opacity active-scale text-white">
+            <div class="w-6 h-6 rounded flex items-center justify-center text-lg font-bold">G</div>
+            <span class="text-[10px] font-medium tracking-wide">Yorum Yap</span>
+        </button>
+        <button class="flex-1 flex flex-col items-center justify-center gap-1 opacity-70 hover:opacity-100 transition-opacity active-scale text-white">
+            <i class="fa-solid fa-clock text-xl"></i>
+            <span class="text-[10px] font-medium tracking-wide">Saatler</span>
+        </button>
+    </nav>
+
+    <!-- JS MANTIKLARI -->
     <script>
-        let currentPage = 1;
-        const totalPages = 5;
+        const homeView = document.getElementById('home-view');
+        const categoryView = document.getElementById('category-view');
+        const categoryTitle = document.getElementById('category-title');
+        const productList = document.getElementById('product-list');
+        const mainScrollArea = document.getElementById('main-scroll-area');
 
-        function goToPage(pageNum) {
-            if (pageNum < 1 || pageNum > totalPages) return;
+        // EFSO Menü Verileri (Fotoğraflar Çıkarıldı)
+        const mockProducts = {
+            'Lahmacun Çeşitleri': [
+                { name: 'Lahmacun', desc: 'Çıtır ince hamur, özel kıymalı harç', price: '130,00 TL', icon: 'fa-fire' },
+                { name: 'Kaşarlı Lahmacun', desc: 'Eriyen kaşar peyniri lezzeti', price: '160,00 TL', icon: 'fa-fire' },
+                { name: 'Malatya Lahmacun', desc: 'Yöresel bol malzemeli lezzet', price: '260,00 TL', icon: 'fa-star' },
+                { name: 'Fındık Lahmacun', desc: 'Porsiyonluk küçük aperatif', price: '120,00 TL', icon: 'fa-circle' },
+                { name: 'Çorba', desc: 'Günün taze ve sıcak çorbası', price: '100,00 TL', icon: 'fa-mug-hot' }
+            ],
+            'Pide Çeşitleri': [
+                { name: 'Kaşarlı Pide', desc: 'Klasik kaşar peynirli pide', price: '270,00 TL', icon: 'fa-leaf' },
+                { name: 'Kıymalı Pide', desc: 'Özel baharatlı kıyma harçlı', price: '290,00 TL', icon: 'fa-fire' },
+                { name: 'Kıymalı Kaşarlı Pide', desc: 'Kıyma ve kaşarın muhteşem uyumu', price: '300,00 TL', icon: 'fa-fire' },
+                { name: 'Sebzeli Kaşarlı Pide', desc: 'Taze sebzeler ve kaşar', price: '290,00 TL', icon: 'fa-leaf' },
+                { name: 'Sucuklu Kaşarlı Pide', desc: 'Kaliteli sucuk ve eriyen kaşar', price: '290,00 TL', icon: 'fa-fire' },
+                { name: 'Kuşbaşılı Pide', desc: 'Özel marine edilmiş et parçaları', price: '340,00 TL', icon: 'fa-fire' },
+                { name: 'Kuşbaşılı Kaşarlı Pide', desc: 'Kuşbaşı et ve kaşar peyniri', price: '350,00 TL', icon: 'fa-fire' },
+                { name: 'Kavurmalı Pide', desc: 'Hakiki kavurma lezzeti', price: '360,00 TL', icon: 'fa-fire' },
+                { name: 'Kavurmalı Kaşarlı Pide', desc: 'Kavurma ve kaşar peyniri', price: '350,00 TL', icon: 'fa-fire' },
+                { name: 'Karışık Pide', desc: 'Tüm lezzetler bir arada', price: '320,00 TL', icon: 'fa-star' },
+                { name: 'Efso Special Pide', desc: 'Şefin özel imza tarifi', price: '370,00 TL', icon: 'fa-crown', highlight: true },
+                { name: 'Pastırmalı Kaşarlı Pide', desc: 'Birinci sınıf pastırma', price: '390,00 TL', icon: 'fa-fire' },
+                { name: 'Etli Ekmek', desc: 'İnce ve uzun geleneksel lezzet', price: '290,00 TL', icon: 'fa-fire' },
+                { name: 'Bafra Pide', desc: 'Kapalı, çıtır Karadeniz pidesi', price: '300,00 TL', icon: 'fa-fire' },
+                { name: 'Mantarlı Kaşarlı Pide', desc: 'Taze kültür mantarı', price: '300,00 TL', icon: 'fa-leaf' }
+            ],
+            'İçecekler': [
+                { name: 'Şişe Coca Cola', desc: 'Soğuk cam şişe', price: '70,00 TL', icon: 'fa-glass-water' },
+                { name: 'Kutu Coca Cola', desc: '330ml Kutu Kola', price: '80,00 TL', icon: 'fa-glass-water' },
+                { name: 'Kutu Fanta', desc: '330ml Kutu Fanta', price: '80,00 TL', icon: 'fa-glass-water' },
+                { name: '1 LT Coca Cola', desc: 'Aile boyu', price: '110,00 TL', icon: 'fa-bottle-water' },
+                { name: '1 LT Fanta', desc: 'Aile boyu', price: '110,00 TL', icon: 'fa-bottle-water' },
+                { name: '2.5 Coca Cola', desc: 'Büyük boy', price: '160,00 TL', icon: 'fa-bottle-water' },
+                { name: '2.5 Fanta', desc: 'Büyük boy', price: '160,00 TL', icon: 'fa-bottle-water' },
+                { name: 'Sarıyer Kutu Kola', desc: '330ml', price: '80,00 TL', icon: 'fa-glass-water' },
+                { name: '1 LT Sarıyer Kola', desc: 'Aile boyu', price: '110,00 TL', icon: 'fa-bottle-water' }
+            ],
+            'Ayran & Süt Ürünleri': [
+                { name: 'Küçük Ayran (Şişe)', desc: '200ml Ayran', price: '30,00 TL', icon: 'fa-glass-water' },
+                { name: 'Büyük Ayran (Şişe)', desc: '300ml Ayran', price: '40,00 TL', icon: 'fa-glass-water' },
+                { name: '1 LT Ayran (Şişe)', desc: 'Aile boyu', price: '90,00 TL', icon: 'fa-bottle-water' },
+                { name: 'Cam Şişe Silivri Ayran', desc: 'Geleneksel cam şişe', price: '70,00 TL', icon: 'fa-bottle-water' },
+                { name: 'Su', desc: 'Pet şişe su', price: '20,00 TL', icon: 'fa-droplet' }
+            ],
+            'Diğer Ürünler': [
+                { name: 'Pınar Kutu Mango', desc: 'Doğanay Marka', price: '60,00 TL', icon: 'fa-lemon' },
+                { name: 'Pınar Kutu Şeftali', desc: 'Doğanay Marka', price: '60,00 TL', icon: 'fa-lemon' },
+                { name: 'Pınar Kutu Çilek', desc: 'Doğanay Marka', price: '60,00 TL', icon: 'fa-lemon' },
+                { name: 'Beypazarı Sade Soda', desc: 'Maden suyu', price: '30,00 TL', icon: 'fa-glass-water' },
+                { name: 'Limonlu Sırma Soda', desc: 'Aromalı maden suyu', price: '40,00 TL', icon: 'fa-glass-water' },
+                { name: 'Çamlıca Gazoz', desc: 'Klasik gazoz', price: '50,00 TL', icon: 'fa-glass-water' },
+                { name: 'Doğanay Acılı Şalgam', desc: 'Şişe', price: '40,00 TL', icon: 'fa-pepper-hot' },
+                { name: 'Doğanay Acısız Şalgam', desc: 'Şişe', price: '40,00 TL', icon: 'fa-glass-water' }
+            ]
+        };
+
+        function openCategory(catName) {
+            categoryTitle.textContent = catName;
             
-            currentPage = pageNum;
-
-            // Bütün sayfaları sıralı aç veya kapat (Fade & Scale efekti)
-            for (let i = 1; i <= totalPages; i++) {
-                const page = document.getElementById(`page-${i}`);
-                if (i === currentPage) {
-                    // Aktif sayfa sınıfları
-                    page.classList.remove('opacity-0', 'scale-[0.98]', 'pointer-events-none', 'z-10');
-                    page.classList.add('opacity-100', 'scale-100', 'pointer-events-auto', 'z-20');
-                } else {
-                    // İnaktif sayfa sınıfları
-                    page.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto', 'z-20');
-                    page.classList.add('opacity-0', 'scale-[0.98]', 'pointer-events-none', 'z-10');
-                }
-            }
-
-            // Tab Butonlarını Güncelle
-            document.querySelectorAll('.nav-tab').forEach((tab, idx) => {
-                if (idx + 1 === currentPage) {
-                    tab.classList.add('active-tab');
-                    tab.classList.remove('text-gray-400');
-                    tab.classList.add('text-gold-500', 'border-b-gold-500');
-                    tab.classList.remove('border-transparent');
-                } else {
-                    tab.classList.remove('active-tab');
-                    tab.classList.add('text-gray-400', 'border-transparent');
-                    tab.classList.remove('text-gold-500', 'border-b-gold-500');
-                }
+            const products = mockProducts[catName] || [];
+            productList.innerHTML = ''; 
+            
+            products.forEach(p => {
+                // Özel ürün ise parlayan tasarım yap, değilse standart kutu
+                const isSpecialBox = p.highlight 
+                    ? 'border-brand-gold shadow-[0_0_15px_rgba(245,158,11,0.15)] bg-gradient-to-br from-brand-card to-[#2B1B04]' 
+                    : 'border-white/5 bg-brand-card shadow-md';
+                
+                const specialTitleColor = p.highlight ? 'text-brand-gold' : 'text-white';
+                
+                // Şefin seçimi etiketi HTML'i
+                const badgeHtml = p.highlight 
+                    ? `<div class="absolute top-0 right-0 bg-brand-gold text-black text-[9px] font-extrabold px-3 py-1 rounded-bl-xl uppercase tracking-widest shadow-md"><i class="fa-solid fa-crown mr-1"></i> Şefin Seçimi</div>` 
+                    : '';
+                
+                // Tasarım odaklı ürün HTML'i (Sıfır fotoğraf)
+                const itemHtml = `
+                <div class="rounded-2xl p-4 flex flex-col gap-2 border ${isSpecialBox} relative overflow-hidden">
+                    ${badgeHtml}
+                    
+                    <div class="flex justify-between items-start gap-3 mt-1">
+                        <div class="flex-1 pr-2">
+                            <h4 class="font-bold text-[17px] ${specialTitleColor} leading-tight mb-1.5">${p.name}</h4>
+                            <p class="text-[12px] text-gray-400 leading-snug">${p.desc}</p>
+                        </div>
+                        <div class="text-right shrink-0 mt-0.5">
+                            <span class="font-bold text-[17px] text-white whitespace-nowrap">${p.price}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between mt-2 pt-3 border-t border-white/5">
+                        <div class="flex items-center gap-2">
+                            <span class="flex items-center gap-1.5 bg-black/40 border border-white/10 px-2.5 py-1 rounded-lg text-[10px] text-gray-300">
+                                <i class="fa-solid ${p.icon} text-brand-gold"></i> Efso Lezzet
+                            </span>
+                        </div>
+                        <button class="bg-brand-main text-white text-[12px] font-bold px-6 py-1.5 rounded-lg active-scale border border-red-500/30">Seç</button>
+                    </div>
+                </div>`;
+                
+                productList.insertAdjacentHTML('beforeend', itemHtml);
             });
+
+            // Sayfa geçiş animasyonu
+            homeView.classList.remove('show-view');
+            homeView.classList.add('hide-view');
+            
+            setTimeout(() => {
+                categoryView.classList.remove('hide-view');
+                categoryView.classList.add('show-view');
+                mainScrollArea.scrollTop = 0; 
+            }, 100);
         }
 
-        function nextPage() {
-            if (currentPage < totalPages) goToPage(currentPage + 1);
-        }
-
-        function prevPage() {
-            if (currentPage > 1) goToPage(currentPage - 1);
+        function goHome() {
+            categoryView.classList.remove('show-view');
+            categoryView.classList.add('hide-view');
+            
+            setTimeout(() => {
+                homeView.classList.remove('hide-view');
+                homeView.classList.add('show-view');
+            }, 100);
         }
     </script>
 </body>
